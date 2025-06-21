@@ -6,6 +6,8 @@ const cors = require('cors');
 // 🔗 Import routes
 const leadRoutes = require('./routes/leadRoutes');     // 🟢 Lead API
 const authRoutes = require('./auth/authRoutes');       // 🟢 Auth API
+const taskRoutes = require('./routes/taskRoutes');     // 🟡 Task API ✅ NEW
+const activityRoutes = require('./routes/activityRoutes'); // 🟡 Activity API ✅ NEW
 
 // 🚀 Initialize app
 const app = express();
@@ -29,6 +31,9 @@ app.get('/', (req, res) => {
 // 🛣️ Route middleware
 app.use('/api/leads', leadRoutes);    // 📂 Lead management
 app.use('/api/auth', authRoutes);     // 🔐 Auth (login, register, etc.)
+app.use('/api/tasks', taskRoutes);    // 📌 Task management ✅ NEW
+app.use('/api/activities', activityRoutes); // 📅 Activity management
+
 
 // 🏁 Start server
 app.listen(PORT, () => {

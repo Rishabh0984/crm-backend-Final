@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Lead = require("../models/Lead");
+const authenticate = require("./authMiddleware"); // ✅ Updated path
 
-// Create a new lead
-router.post("/", async (req, res) => {
+// Create a new lead (requires authentication)
+router.post("/", authenticate, async (req, res) => {
     try {
         const lead = new Lead(req.body);
         await lead.save();
@@ -13,8 +14,8 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Get all leads
-router.get("/", async (req, res) => {
+// Get all leads (requires authentication)
+router.get("/", authenticate, async (req, res) => {
     try {
         const leads = await Lead.find();
         res.json(leads);
@@ -23,8 +24,8 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Get lead by ID
-router.get("/:id", async (req, res) => {
+// Get lead by ID (requires authentication)
+router.get("/:id", authenticate, async (req, res) => {
     try {
         const lead = await Lead.findById(req.params.id);
         if (!lead) return res.status(404).json({ message: "Lead not found" });
@@ -34,8 +35,8 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// Update lead
-router.put("/:id", async (req, res) => {
+// Update lead (requires authentication)
+router.put("/:id", authenticate, async (req, res) => {
     try {
         const updatedLead = await Lead.findByIdAndUpdate(
             req.params.id,
@@ -48,8 +49,8 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// Delete lead
-router.delete("/:id", async (req, res) => {
+// Delete lead (requires authentication)
+router.delete("/:id", authenticate, async (req, res) => {
     try {
         await Lead.findByIdAndDelete(req.params.id);
         res.json({ message: "Lead deleted" });
